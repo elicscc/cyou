@@ -5,8 +5,7 @@ import com.ccstay.cyou.entity.PageResult;
 import com.ccstay.cyou.entity.Result;
 import com.ccstay.cyou.entity.StatusCode;
 import com.ccstay.cyou.pojo.Article;
-import com.ccstay.cyou.pojo.ArticleIK;
-import com.ccstay.cyou.service.ArticleIKService;
+
 import com.ccstay.cyou.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -125,19 +124,14 @@ public class ArticleController {
 		return new Result(true,StatusCode.OK,"点赞成功");
 	}
 
-	@Autowired
-	private ArticleIKService articleIKService;
-//	@PostMapping
-//	public Result save(@RequestBody ArticleIK articleIK){
-//		articleIKService.save(articleIK);
-//		return new Result(true, StatusCode.OK,"添加成功");
+//	@Autowired
+//	private ArticleIKService articleIKService;
+//
+//
+//	@GetMapping(value = "/{key}/{page}/{size}")
+//	public Result findByKey(@PathVariable String key, @PathVariable int page, @PathVariable int size){
+//		Page<ArticleIK> pageData=   articleIKService.findByKey(key,page,size);
+//		return new Result(true, StatusCode.OK,"查询成功",new PageResult<ArticleIK>(pageData.getTotalElements(),pageData.getContent()));
 //
 //	}
-
-	@GetMapping(value = "/{key}/{page}/{size}")
-	public Result findByKey(@PathVariable String key, @PathVariable int page, @PathVariable int size){
-		Page<ArticleIK> pageData=   articleIKService.findByKey(key,page,size);
-		return new Result(true, StatusCode.OK,"查询成功",new PageResult<ArticleIK>(pageData.getTotalElements(),pageData.getContent()));
-
-	}
 }

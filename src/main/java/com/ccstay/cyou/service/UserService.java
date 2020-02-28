@@ -1,15 +1,18 @@
 package com.ccstay.cyou.service;
 
 
+import com.aliyuncs.exceptions.ClientException;
 import com.ccstay.cyou.dao.UserRepository;
 import com.ccstay.cyou.pojo.User;
 import com.ccstay.cyou.util.BCryptPasswordEncoder;
 import com.ccstay.cyou.util.JwtUtil;
+import com.ccstay.cyou.util.SmsUtil;
 import io.jsonwebtoken.Claims;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -228,7 +231,14 @@ private JwtUtil jwtUtil;
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    @Autowired
+    private SmsUtil smsUtil;
 
+    @Value("${aliyun.sms.template_code}")
+    private  String template_code;
+    //你的accessKeySecret
+    @Value("${aliyun.sms.sign_name}")
+    private  String sign_name ;
     /**
      * 发送短信验证码（保存手机验证码到redis和mq中）
      *
@@ -246,11 +256,17 @@ private JwtUtil jwtUtil;
         redisTemplate.opsForValue().set("sms.checkcode" + mobile, checkcode, 5, TimeUnit.MINUTES);
         //2）mq
         //封装数据的map
-        Map<String, Object> map = new HashMap<>();
-        map.put("mobile", mobile);
-        map.put("checkcode", checkcode + "");
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("mobile", mobile);
+//        map.put("checkcode", checkcode + "");
         // 使用默认直连交换机 
         //rabbitTemplate.convertAndSend("sms.checkcode", map);
+        try {
+            smsUtil.sendSms(mobile, sign_name, template_code, "{\"code\":" + checkcode + "}");
+        }catch (
+    ClientException e){
+        e.printStackTrace();
+    }
     }
 
 //    public User login(User user) {
