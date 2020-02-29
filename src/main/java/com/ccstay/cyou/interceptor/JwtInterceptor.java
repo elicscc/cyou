@@ -26,7 +26,7 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
 
-        System.out.println("经过了JwtInterceptor拦截器...");
+       // System.out.println("经过了JwtInterceptor拦截器...");
 
 //        if(HttpMethod.OPTIONS.toString().equals(request.getMethod())){
 //            System.out.println("跨域的第一次请求，直接放行");

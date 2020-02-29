@@ -9,7 +9,8 @@ import java.util.Date;
 @Data
 public class Spit implements Serializable {
     @Id
-    private String _id;//主键
+    private String id;//主键
+
     private String content;//吐槽内容
     private Date publishtime;//发布日期
     private String userid;//发布人ID

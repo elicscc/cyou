@@ -162,16 +162,25 @@ public class ProblemService {
 
     public Page<Problem> newlist(String labelid, int page, int rows) {
         Pageable pageable = PageRequest.of(page - 1, rows);
+        if ("0".equals(labelid)){
+            return problemRepository.newlistIndex(pageable);
+        }
         return problemRepository.newlist(labelid, pageable);
     }
 
     public Page<Problem> hotlist(String labelid, int page, int rows) {
         Pageable pageable = PageRequest.of(page - 1, rows);
+        if ("0".equals(labelid)){
+            return problemRepository.hotlistIndex(pageable);
+        }
         return problemRepository.hotlist(labelid, pageable);
     }
 
     public Page<Problem> waitlist(String labelid, int page, int rows) {
         Pageable pageable = PageRequest.of(page - 1, rows);
+        if ("0".equals(labelid)){
+            return problemRepository.waitlistIndex(pageable);
+        }
         return problemRepository.waitlist(labelid, pageable);
     }
 }

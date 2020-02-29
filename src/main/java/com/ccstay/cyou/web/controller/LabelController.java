@@ -23,6 +23,7 @@ public class LabelController {
     private LabelService labelService;
     @Autowired
     private HttpServletRequest request;
+
     @RequestMapping(method = RequestMethod.GET)
     public Result findAll() {
 

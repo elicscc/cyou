@@ -24,4 +24,14 @@ public interface ProblemRepository extends JpaRepository<Problem, String>, JpaSp
     Page<Problem> waitlist(String labelid, Pageable pageable);
 
 
+    @Query(value = "SELECT * FROM tb_problem ,tb_pl WHERE  id=problemid  ORDER BY replytime DESC ", nativeQuery = true)
+    Page<Problem> newlistIndex(Pageable pageable);
+
+    @Query(value = "SELECT * FROM tb_problem ,tb_pl WHERE  id=problemid  ORDER BY reply DESC", nativeQuery = true)
+    Page<Problem> hotlistIndex( Pageable pageable);
+
+    @Query(value = "SELECT * FROM tb_problem ,tb_pl WHERE  id=problemid  AND reply=0 ORDER BY createtime DESC", nativeQuery = true)
+    Page<Problem> waitlistIndex(Pageable pageable);
+
+
 }

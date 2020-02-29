@@ -3,6 +3,7 @@ import com.ccstay.cyou.entity.PageResult;
 import com.ccstay.cyou.entity.Result;
 import com.ccstay.cyou.entity.StatusCode;
 import com.ccstay.cyou.pojo.Channel;
+import com.ccstay.cyou.pojo.Gathering;
 import com.ccstay.cyou.pojo.Spit;
 import com.ccstay.cyou.service.ChannelService;
 import com.ccstay.cyou.service.SpitService;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -19,6 +22,8 @@ public class SpitController {
     private SpitService spitService;
     @Autowired
     private RedisTemplate redisTemplate;
+
+
     @GetMapping
     public Result findAll() {
         return new Result(true, StatusCode.OK, "查询成功", spitService.findAll());
@@ -32,7 +37,7 @@ public class SpitController {
 
     @PutMapping(value = "/{spitId}")
     public Result update(@PathVariable String spitId, @RequestBody Spit spit) {
-        spit.set_id(spitId);
+        spit.setId(spitId);
         spitService.update(spit);
         return new Result(true, StatusCode.OK, "修改成功");
     }
@@ -64,6 +69,18 @@ public class SpitController {
         spitService.thumbup(spitId);
         redisTemplate.opsForValue().set("thumbup_"+userid,1);
         return new Result(true, StatusCode.OK, "点赞成功");
+    }
+    /**
+     * 分页+多条件查询
+     * @param searchMap 查询条件封装
+     * @param page 页码
+     * @param size 页大小
+     * @return 分页结果
+     */
+    @PostMapping("/search/{page}/{size}")
+    public Result listPage(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
+        Page<Spit> pageResponse = spitService.findGatheringListPage(searchMap, page, size);
+        return  new Result(true,StatusCode.OK,"查询成功",  new PageResult<Spit>(pageResponse.getTotalElements(), pageResponse.getContent()) );
     }
 
 }

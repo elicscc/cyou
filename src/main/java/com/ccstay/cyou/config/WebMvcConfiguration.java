@@ -22,8 +22,7 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
                 //添加需要拦截器拦截的资源
                 .addPathPatterns("/**")
         //排除不需要拦截的资源，如登录
-        .excludePathPatterns("/**/login","/**/add","/user/sendsms/**")
-        ;
+        .excludePathPatterns("/**/login","/**/add");
     }
 
 }

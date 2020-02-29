@@ -6,14 +6,9 @@ spring:
     url: jdbc:mysql:///cyou?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: root
-  data:
-    elasticsearch:
-      repositories:
-        enabled: true
-      cluster-nodes: 127.0.0.1:9300
-    mongodb:
-      host: 127.0.0.1
-      database: spitdb
+  mongodb:
+    host: 127.0.0.1
+    database: spitdb
   jpa: 
     database: MySQL
     show-sql: true
@@ -32,9 +27,5 @@ aliyun:
     accessKeySecret:
     template_code: SMS_184205569
     sign_name: CC
-#zuul:
-#  routes:
-#    server:
-#      path: /user/**,/base/**,/qa/**
-#      serviceId: server
+
 

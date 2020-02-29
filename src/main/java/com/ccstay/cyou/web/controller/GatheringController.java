@@ -63,9 +63,11 @@ public class GatheringController {
 	 * 查询全部数据
 	 * @return
 	 */
-	@GetMapping
-	public Result list(){
-		return new Result(true,StatusCode.OK,"查询成功",gatheringService.findGatheringList());
+	@GetMapping(("/{page}/{size}"))
+	public Result list(@PathVariable int page, @PathVariable int size){
+
+		Page<Gathering> pageResponse=gatheringService.findGatheringList(page,size);
+		return new Result(true,StatusCode.OK,"查询成功",  new PageResult<Gathering>(pageResponse.getTotalElements(), pageResponse.getContent()));
 	}
 	
 	/**

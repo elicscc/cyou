@@ -26,6 +26,7 @@ import javax.persistence.criteria.Predicate;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 
 /**
@@ -56,6 +57,11 @@ private JwtUtil jwtUtil;
         user.setId(idWorker.nextId() + "");
         userRepository.save(user);
     }
+    public static boolean IsMobilePhone(String InPut)
+{
+String reg = "^(((13[0-9])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8})|(0\\d{2}-\\d{8})|(0\\d{3}-\\d{7})$";
+return Pattern.matches(reg, InPut);
+}
 
     /**
      * 用户自助注册保存用户
@@ -64,20 +70,19 @@ private JwtUtil jwtUtil;
 
      */
     public void addUser(User user) {
-        //1.校验验证码(和redis中的对比)
-        //获取redis中的验证码
 
 
 
         //2.保存用户到数据库
         user.setId(idWorker.nextId() + "");
-      user.setPassword(  bCryptPasswordEncoder.encode(user.getPassword()));
+      user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+      user.setAvatar("http://tb.himg.baidu.com/sys/portrait/item/tb.1.caedc45c.DdIyVhrXVhVL--oPhGnseg?t=1582125308");
         user.setFollowcount(0);//关注数
         user.setFanscount(0);//粉丝数
         user.setOnline(0L);//在线时长
         user.setRegdate(new Date());//注册日期
-//      user.setUpdatedate(new Date());//更新日期
-//		user.setLastdate(new Date());//最后登陆日期
+      user.setUpdatedate(new Date());//更新日期
+		user.setLastdate(new Date());//最后登陆日期
         userRepository.save(user);
 
         //3.用户注册成功后，清除redis中的验证码
@@ -249,7 +254,7 @@ private JwtUtil jwtUtil;
         String checkcode = RandomStringUtils.randomNumeric(6);
         //修正
 
-        System.out.println(mobile + "随机生成的验证码是：" + checkcode);
+        //System.out.println(mobile + "随机生成的验证码是：" + checkcode);
 
         //2.保存手机号和验证码
         //1）redis,过期时间为5分钟
@@ -281,5 +286,12 @@ private JwtUtil jwtUtil;
             }
         }
         return  null;
+    }
+
+    public boolean checkRegMb(String mobile) {
+       if (userRepository.findByMobile(mobile)==null){
+           return true;
+       }
+       return false;
     }
 }

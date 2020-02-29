@@ -16,7 +16,7 @@ public class JiebaTest  {
 //    }
 
     public void testCutForSearch() {
-        System.out.println(jiebaSegmenter.sentenceProcess(sentences));
+        //System.out.println(jiebaSegmenter.sentenceProcess(sentences));
     }
 
 }

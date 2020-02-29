@@ -11,6 +11,7 @@ import com.ccstay.cyou.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -111,6 +112,12 @@ public class UserController {
 	 */
 	@PostMapping("/sendsms/{mobile}")
 	public Result sendSmsCheckcode(@PathVariable String mobile){
+		if (!userService.checkRegMb(mobile)){
+			return new Result(false,StatusCode.ERROR,"该手机已经注册请登录！");
+		}
+		if (StringUtils.isEmpty(mobile)|| !userService.IsMobilePhone(mobile)){
+			return new Result(false,StatusCode.ERROR,"手机号不正确");
+		}
 		userService.saveSmsCheckcode(mobile);
 		return  new Result(true,StatusCode.OK,"发送成功");
 	}
@@ -120,8 +127,16 @@ public class UserController {
 	 * 用户注册
 	 * @param user
 	 */
+
 	@PostMapping("/register/{checkcode}")
 	public Result register(@RequestBody User user , @PathVariable String checkcode ){
+
+		if (!userService.checkRegMb(user.getMobile())){
+			return new Result(false,StatusCode.ERROR,"该手机已经注册请登录！");
+		}
+		if (StringUtils.isEmpty(user.getMobile())|| !userService.IsMobilePhone(user.getMobile())){
+			return new Result(false,StatusCode.ERROR,"该手机号不正确");
+		}
 
 		String checkcodeRedis = redisTemplate.opsForValue().get("sms.checkcode" + user.getMobile());
 		//判断
@@ -132,12 +147,22 @@ public class UserController {
 		if(!checkcodeRedis.equals((checkcode))){
 			return new Result(false,StatusCode.ERROR,"验证码不正确");
 		}
+		if(user.getNickname()==null){
+			return new Result(false,StatusCode.ERROR,"昵称不能为空");
+		}
+		if(user.getPassword()==null){
+			return new Result(false,StatusCode.ERROR,"密码不能为空");
+		}
+
 		userService.addUser(user);
-		return new Result(true,StatusCode.OK,"用户注册成功");
+		return new Result(true,StatusCode.OK,"注册成功快去登录吧");
 	}
 
 	@PostMapping("/login")
 	public Result login(@RequestBody User user){
+		if(StringUtils.isEmpty(user.getMobile())||StringUtils.isEmpty(user.getPassword())){
+			return new Result(false,StatusCode.LOGINERROR,"用户名或密码错误");
+		}
 		user=userService.login(user.getMobile(),user.getPassword());
 		if(null!=user){
 			//登录成功
