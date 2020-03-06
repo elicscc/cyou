@@ -22,7 +22,7 @@ import java.util.Map;
  *
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("/problem")
 public class ProblemController {
 	//注入HttpServletRequest

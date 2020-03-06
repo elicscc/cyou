@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@CrossOrigin
+
 @RequestMapping("/spit")
 public class SpitController {
     @Autowired

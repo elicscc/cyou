@@ -20,7 +20,7 @@ import java.util.Map;
  *
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("/article")
 public class ArticleController {
 

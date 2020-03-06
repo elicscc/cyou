@@ -6,7 +6,7 @@ import com.ccstay.cyou.entity.StatusCode;
 import com.ccstay.cyou.pojo.User;
 
 import com.ccstay.cyou.service.UserService;
-import com.ccstay.cyou.util.BCryptPasswordEncoder;
+
 import com.ccstay.cyou.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ import java.util.Map;
  *
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("/user")
 public class UserController {
 	@Autowired

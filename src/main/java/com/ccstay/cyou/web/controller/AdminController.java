@@ -23,7 +23,7 @@ import java.util.Map;
  * @author BoBoLaoShi
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("/admin")
 public class AdminController {
 

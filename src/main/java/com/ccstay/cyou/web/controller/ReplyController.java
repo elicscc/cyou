@@ -19,7 +19,7 @@ import java.util.Map;
  *
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("/reply")
 public class ReplyController {
 

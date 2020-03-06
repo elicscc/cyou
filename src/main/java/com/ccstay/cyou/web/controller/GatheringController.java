@@ -20,7 +20,7 @@ import java.util.Map;
  *
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("/gathering")
 public class GatheringController {
 

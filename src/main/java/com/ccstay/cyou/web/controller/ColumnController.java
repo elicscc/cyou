@@ -20,7 +20,7 @@ import java.util.Map;
  *
  */
 @RestController
-@CrossOrigin
+
 @RequestMapping("/column")
 public class ColumnController {
 

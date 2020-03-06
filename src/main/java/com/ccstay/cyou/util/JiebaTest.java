@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.TextScore;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.Paths;
-@Component
+//@Component
 public class JiebaTest  {
     private JiebaSegmenter jiebaSegmenter=new JiebaSegmenter();
 
